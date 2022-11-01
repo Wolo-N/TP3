@@ -108,17 +108,22 @@
 ;que se realizó y dejar la pila consistente, es decir, quitando dos datos de la pila. 
 ;Se recomienda utilizar como código de operación el 0x0F. 
 
-
-01111: ;POPADD
-
-    ; poner dos valores de la pila en a y en b.
-
-    ALU_enA RB_enOut RB_selectIndexOut=0 ; A <- Rx
-    ALU_enB RB_enOut RB_selectIndexOut=1 ; B <- Ry
-    ALU_OP=ADD ALU_opW                   ; ALU_ADD
-    RB_enIn RB_selectIndexIn=0 ALU_enOut ; Rx <- ALU_OUT
-
-    ;despues de la suma, eliminar los valores de la pila.
+01111: ;POPADD |Rx|, Ry
+    ALU_enA                    RB_enOut RB_selectIndexOut=0  ; a <- Rx
+    ALU_enB                    ALU_enOut ALU_OP=0x01         ; b = 1
+    RB_enIn RB_selectIndexIn=0 ALU_enOut ALU_OP=ADD          ; Rx + 1             
+    MM_enAddr                  RB_enOut RB_selectIndexOut=0  ; addr <- Rx
+    RB_enIn RB_selectIndexIn=1 MM_enOut                      ; Ry <-|Rx|
+    
+    ALU_enA                     RB_enOut RB_selectIndexOut=0 ; A <- Rx
+    ALU_enB                    ALU_enOut ALU_OP=0x01         ; b = 1
+    RB_enIn RB_selectIndexIn=0 ALU_enOut ALU_OP=ADD          ; Rx + 1             
+    MM_enAddr                  RB_enOut RB_selectIndexOut=0  ; addr <- Rx
+    
+    ALU_enA                     MM_enOut                     ; a <- |Rx|
+    ALU_enB                     RB_enOut RB_selectIndexOut=1 ; B <- Ry
+    ALU_OP=ADD                  ALU_opW
+    RB_enIn                     RB_selectIndexIn=0 ALU_enOut ; Rx <- Rx + Ry
 
     reset_microOp
 
