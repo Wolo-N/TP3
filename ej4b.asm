@@ -53,8 +53,6 @@ swap:
 	STR [R0],R6	; mem[d] = mem[n - d - 1]
 	SUB R0,R3		; R0 = mem
 
-	SET R6,0x01	; R4 = 1
-	ADD R5,R6		; R5 = n - d
 	ADD R0,R5		; R0 = mem - n - d
 	STR [R0],R4	; mem[n - d] = AUX
 	SUB R0,R5		; R0 = mem
