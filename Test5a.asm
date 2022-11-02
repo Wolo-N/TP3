@@ -7,5 +7,8 @@ main:
     PUSH |R7|, R1
     DB 0x77 
     DB 0x00
+    POP |R7|, R1
+    POP |R7|, R0
+
 halt:
 	JMP halt
