@@ -105,10 +105,11 @@
 ;Bajo este código se debe agregar la operación de la ALU que realiza el intercambio de bits. 
 ;Se recomienda utilizar como código de operación el 0x0E. 
  
-;01110: ; FLIPBITS
-;    ALU_enA                    RB_enOut RB_selectIndexOut=0  ; A <- Rx
-;    ALU_enA                    ALU_enOut ALU_OP=cte0x02         ; flipthembits
-;    reset_microOp
+01110: ; FLIPBITS
+    ALU_enA                    RB_enOut RB_selectIndexOut=0  ; A <- Rx
+    ALU_enA                    ALU_enOut ALU_OP=cte0x02         ; flipthembits
+    RB_enIn                    RB_selectIndexIn=0 ALU_enOut ; Rx <- A 
+    reset_microOp
 
 ;Sin agregar circuitos nuevos, agregar la instrucción POPADD que toma dos números almacenados en la pila, 
 ;los suma y retorna el resultado en un registro. Esta instrucción debe alterar los flags según la operación
@@ -117,20 +118,20 @@
 
 01111: ;POPADD |Rx|, Ry
     ALU_enA                    RB_enOut RB_selectIndexOut=0  ; a <- Rx
-    ALU_enB                    ALU_enOut ALU_OP=cte0x01         ; b = 1
+    ALU_enB                    ALU_enOut ALU_OP=cte0x01      ; b = 1
     RB_enIn RB_selectIndexIn=0 ALU_enOut ALU_OP=ADD          ; Rx + 1             
     MM_enAddr                  RB_enOut RB_selectIndexOut=0  ; addr <- Rx
     RB_enIn RB_selectIndexIn=1 MM_enOut                      ; Ry <-|Rx|
     
     ALU_enA                     RB_enOut RB_selectIndexOut=0 ; A <- Rx
-    ALU_enB                    ALU_enOut ALU_OP=cte0x01         ; b = 1
+    ALU_enB                    ALU_enOut ALU_OP=cte0x01      ; b = 1
     RB_enIn RB_selectIndexIn=0 ALU_enOut ALU_OP=ADD          ; Rx + 1             
     MM_enAddr                  RB_enOut RB_selectIndexOut=0  ; addr <- Rx
 
     ALU_enA                     MM_enOut                     ; a <- |Rx|
     ALU_enB                     RB_enOut RB_selectIndexOut=1 ; B <- Ry
     ALU_OP=ADD                  ALU_opW
-    RB_enIn                     RB_selectIndexIn=0 ALU_enOut ; Rx <- Rx + Ry
+    RB_enIn                     RB_selectIndexIn=1 ALU_enOut ; Rx <- Rx + Ry
 
     reset_microOp
 
