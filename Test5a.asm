@@ -5,7 +5,7 @@ main:
     SET R7, 0xFF
     PUSH |R7|, R0
     PUSH |R7|, R1
-    DB 01110 
-
+    DB 0x77 
+    DB 0x00
 halt:
 	JMP halt
