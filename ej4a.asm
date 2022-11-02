@@ -20,39 +20,28 @@ halt:
 ; idea para devolver valores originales, cargar todo a la pila.
 
 mft3:
-	PUSH |R7|, R3 ; entramos todos los registros a la pila
-	PUSH |R7|, R0
-	PUSH |R7|, R1
-	PUSH |R7|, R2 ; a chequear
 	
 ; IF
 	ADD R1, R2	; vemos si se cumple el if
 	CMP R3, R1  ; if f + t > 100 
+	SUB R1, R2  ; reseteamos R1
 	JN if ; Saltamos al if
 	
 ; ELSE
 	MOV R6, R2
-	SET R4, 0x01	; seteamos R4 en 1
-	SHL	R2, 0x02 ; seteamos R4 en 5
-	ADD R2, R6
+	SHL	R2, 0x02 	; R2*2
+	ADD R2, R6		; R2+R2
 	SUB R0, R2 
-	MOV R4, R0 ; Pasamos todo a R4
-	ADD R0, R2 ; Reseteamos valor de M
+	MOV R4, R0	 ; Pasamos todo a R4
+	ADD R0, R2 	 ; Reseteamos valor de M
 	SHR	R2, 0x02 ; Reseteamos valor de T
 	SUB R2, R6   ; Reseteamos valor de T
-
-	POP |R7|, R2 ; a chequear
-	POP |R7|, R1
-	POP |R7|, R0 
-	POP |R7|, R3
 	
 	RET |R7|
 
-if:
-	PUSH |R7|, R1
+if: 
 	SET R4, 0x00 ; aca voy a devolver el resultado
 	SHL R1, 1 ; MUL *2 todo F
 	MOV R4, R1 ; muevo todo a r4
 	SHR R1, 1 ; reseteo todo F
-	POP |R7|, R1
 	RET |R7|
