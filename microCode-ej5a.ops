@@ -107,7 +107,7 @@
  
 ;01110: ; FLIPBITS
 ;    ALU_enA                    RB_enOut RB_selectIndexOut=0  ; A <- Rx
-;    ALU_enA                    ALU_enOut ALU_OP=0x02         ; flipthembits
+;    ALU_enA                    ALU_enOut ALU_OP=cte0x02         ; flipthembits
 ;    reset_microOp
 
 ;Sin agregar circuitos nuevos, agregar la instrucción POPADD que toma dos números almacenados en la pila, 
