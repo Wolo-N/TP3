@@ -1,4 +1,5 @@
 ; 01111 111 011 00000
+; Resultado esperado: A3 en R3
 main:
     SET R0, 0xA2
     SET R1, 0x01
